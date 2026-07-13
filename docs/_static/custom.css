@@ -5,3 +5,116 @@
 .content {
   max-width: 55em;
 }
+
+/* Interactive attitude-visualization widget (docs/index.md). */
+#adcs-viewer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  align-items: stretch;
+  margin: 1.5em 0;
+  padding: 1em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  border-radius: 0.5em;
+}
+
+#adcs-canvas-wrap {
+  flex: 1 1 360px;
+  min-width: 280px;
+  cursor: grab;
+}
+
+#adcs-canvas-wrap:active {
+  cursor: grabbing;
+}
+
+#adcs-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 0.375em;
+}
+
+.adcs-readout {
+  flex: 0 0 220px;
+  font-size: 0.9em;
+}
+
+.adcs-readout h4 {
+  margin-top: 0;
+}
+
+.adcs-readout dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25em 0.75em;
+  margin: 0.75em 0;
+}
+
+.adcs-readout dt {
+  font-weight: 600;
+}
+
+.adcs-readout dd {
+  margin: 0;
+  font-family: var(--font-stack--monospace, monospace);
+  text-align: right;
+}
+
+.adcs-readout dd input[type="number"] {
+  width: 4.5em;
+  font: inherit;
+  font-family: inherit;
+  text-align: right;
+  color: inherit;
+  background: var(--color-background-primary, #fff);
+  border: 1px solid var(--color-background-border, #d1d5db);
+  border-radius: 0.25em;
+  padding: 0.1em 0.3em;
+}
+
+.adcs-legend {
+  font-size: 0.85em;
+  opacity: 0.8;
+  margin: 0.75em 0;
+}
+
+.adcs-legend .solid::before,
+.adcs-legend .dashed::before {
+  content: "";
+  display: inline-block;
+  width: 1.2em;
+  border-top: 2px solid currentColor;
+  margin-right: 0.4em;
+  vertical-align: middle;
+}
+
+.adcs-legend .dashed::before {
+  border-top-style: dashed;
+}
+
+#adcs-reset {
+  font: inherit;
+  padding: 0.35em 0.9em;
+  border-radius: 0.3em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  background: var(--color-background-secondary, #f3f4f6);
+  cursor: pointer;
+}
+
+/* Orbit-view widget (docs/index.md). */
+#adcs-orbit-viewer {
+  margin: 1.5em 0;
+  padding: 1em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  border-radius: 0.5em;
+}
+
+#adcs-orbit-canvas-wrap {
+  width: 100%;
+}
+
+#adcs-orbit-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 0.375em;
+}
