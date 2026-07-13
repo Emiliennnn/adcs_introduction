@@ -1,0 +1,7 @@
+/* Custom styles for the Space GNC Handbook.
+   Add tweaks here; the file is loaded via html_css_files in conf.py. */
+
+/* Slightly wider content column for equation-heavy pages. */
+.content {
+  max-width: 55em;
+}
