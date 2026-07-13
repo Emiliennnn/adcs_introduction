@@ -185,7 +185,9 @@ function subscribeAttitude(fn) {
 }
 
 function initMainWidget() {
-  const container = document.getElementById("adcs-viewer");
+  // Sized off its own flex-item wrapper, not the shared outer #adcs-viewer
+  // row (which also contains the orbit view and the readout).
+  const container = document.getElementById("adcs-canvas-wrap");
   if (!container) return;
   const canvas = document.getElementById("adcs-canvas");
   const yawEl = document.getElementById("adcs-yaw");
@@ -228,7 +230,7 @@ function initMainWidget() {
   function resize() {
     const rect = container.getBoundingClientRect();
     const width = rect.width;
-    const height = Math.max(280, Math.round(width * 0.65));
+    const height = Math.max(160, Math.round(width * 0.85));
     canvas.style.height = height + "px";
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
@@ -420,7 +422,9 @@ function buildSatelliteIndicator() {
 }
 
 function initOrbitView() {
-  const container = document.getElementById("adcs-orbit-viewer");
+  // Sized off its own flex-item wrapper, not the shared outer #adcs-viewer
+  // row (which also contains the main view and the readout).
+  const container = document.getElementById("adcs-orbit-canvas-wrap");
   if (!container) return;
   const canvas = document.getElementById("adcs-orbit-canvas");
 
@@ -459,7 +463,7 @@ function initOrbitView() {
   function resize() {
     const rect = container.getBoundingClientRect();
     const width = rect.width;
-    const height = Math.max(280, Math.round(width * 0.6));
+    const height = Math.max(160, Math.round(width * 0.85));
     canvas.style.height = height + "px";
     renderer.setSize(width, height, false);
     camera.aspect = width / height;

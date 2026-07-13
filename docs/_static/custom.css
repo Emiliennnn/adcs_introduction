@@ -6,21 +6,45 @@
   max-width: 55em;
 }
 
-/* Interactive attitude-visualization widget (docs/index.md). */
+/* Justified body text site-wide (flush on both edges), except figure
+   captions/legends, which stay as authored. */
+article[role="main"] p {
+  text-align: justify;
+}
+
+article[role="main"] figcaption p {
+  text-align: initial;
+}
+
+/* Extra breathing room before each subtopic heading, so a new subtopic
+   reads as a clear break rather than butting up against the previous
+   paragraph (Furo's default is a cramped 8px). */
+article[role="main"] h3 {
+  margin-top: 2.5em;
+}
+
+/* Interactive attitude-visualization widget (docs/index.md). Both 3D
+   views and the readout sit in one row so everything is visible at
+   once, without scrolling, on typical viewport widths. */
 #adcs-viewer {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5em;
+  gap: 1em;
   align-items: stretch;
-  margin: 1.5em 0;
-  padding: 1em;
+  margin: 1em 0;
+  padding: 0.75em;
   border: 1px solid var(--color-background-border, #d1d5db);
   border-radius: 0.5em;
 }
 
+#adcs-canvas-wrap,
+#adcs-orbit-canvas-wrap {
+  flex: 1 1 220px;
+  min-width: 180px;
+  max-width: 280px;
+}
+
 #adcs-canvas-wrap {
-  flex: 1 1 360px;
-  min-width: 280px;
   cursor: grab;
 }
 
@@ -28,15 +52,18 @@
   cursor: grabbing;
 }
 
-#adcs-canvas {
+#adcs-canvas,
+#adcs-orbit-canvas {
   width: 100%;
   display: block;
   border-radius: 0.375em;
 }
 
 .adcs-readout {
-  flex: 0 0 220px;
-  font-size: 0.9em;
+  flex: 1 1 170px;
+  min-width: 160px;
+  max-width: 200px;
+  font-size: 0.85em;
 }
 
 .adcs-readout h4 {
@@ -99,22 +126,4 @@
   border: 1px solid var(--color-background-border, #d1d5db);
   background: var(--color-background-secondary, #f3f4f6);
   cursor: pointer;
-}
-
-/* Orbit-view widget (docs/index.md). */
-#adcs-orbit-viewer {
-  margin: 1.5em 0;
-  padding: 1em;
-  border: 1px solid var(--color-background-border, #d1d5db);
-  border-radius: 0.5em;
-}
-
-#adcs-orbit-canvas-wrap {
-  width: 100%;
-}
-
-#adcs-orbit-canvas {
-  width: 100%;
-  display: block;
-  border-radius: 0.375em;
 }

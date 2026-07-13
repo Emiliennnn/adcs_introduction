@@ -21,15 +21,15 @@ ADCS is similarly called **Attitude and Orbit Control System (AOCS)** when orbit
 
 The **EPFL Spacecraft Team**'s satellites are no exceptions, through their needs in targeted charging, precise S-/X-band communication and scientific measurements. This handbook proposes an accessible introduction for anyone interested in **ADCS**, through intuitive explanations rather than a math- and theory-heavy approach.
 
-### Try it yourself
-
-Drag the spacecraft below to rotate it, or type Euler angles directly, and see
-how its attitude relative to the fixed reference frame changes in real time.
+## Try it yourself
 
 ```{raw} html
 <div id="adcs-viewer">
   <div id="adcs-canvas-wrap">
     <canvas id="adcs-canvas"></canvas>
+  </div>
+  <div id="adcs-orbit-canvas-wrap">
+    <canvas id="adcs-orbit-canvas"></canvas>
   </div>
   <div class="adcs-readout">
     <h4>Euler angles</h4>
@@ -50,81 +50,64 @@ how its attitude relative to the fixed reference frame changes in real time.
     <button id="adcs-reset" type="button">Reset attitude</button>
   </div>
 </div>
-```
-
-<!-- ### Seen from orbit
-
-The same attitude, viewed from the outside: the spacecraft is shown as a point
-in orbit, with its own +Z axis (blue) and the opposite -Z direction (dotted).
-Rotating or editing the model above updates this view too. -->
-
-```{raw} html
-<div id="adcs-orbit-viewer">
-  <div id="adcs-orbit-canvas-wrap">
-    <canvas id="adcs-orbit-canvas"></canvas>
-  </div>
-  <p class="adcs-legend">
-    <span class="solid" style="color:#2f6fed">+Z (body)</span> ·
-    <span class="dashed" style="color:#2f6fed">&minus;Z (body)</span>
-  </p>
-</div>
 <script type="module" src="_static/adcs-model.js"></script>
 ```
 
 ## Topics
+Here below are the topics covered currently in this handbook. While each topic has its own content independently to others, it is preferred to tackled them in order. 
 
 ::::{grid} 1 2 2 3
 :gutter: 3
 
-:::{grid-item-card} 🎛️ Control
+:::{grid-item-card} 🎛️ I - Control
 :link: control/index
 :link-type: doc
 Feedback control, controller design, and stability for spacecraft.
 :::
 
-:::{grid-item-card} 📡 State Estimation
+:::{grid-item-card} 📡 II - State Estimation
 :link: state-estimation/index
 :link-type: doc
 Filtering and estimation: Kalman filters, attitude determination.
 :::
 
-:::{grid-item-card} 🛰️ Orbit Dynamics
+:::{grid-item-card} 🛰️ III - Orbit Dynamics
 :link: orbit-dynamics/index
 :link-type: doc
 Two-body problem, perturbations, and orbital mechanics.
 :::
 
-:::{grid-item-card} 🔧 Sensors & Actuators
+:::{grid-item-card} 🔧 IV - Sensors & Actuators
 :link: sensors-actuators/index
 :link-type: doc
 Space-grade sensors and actuators for attitude and orbit.
 :::
 
-:::{grid-item-card} 🧭 ADCS / AOCS
+:::{grid-item-card} 🧭 V - ADCS / AOCS
 :link: adcs-aocs/index
 :link-type: doc
 Attitude (and Orbit) Determination and Control Systems.
 :::
 
-:::{grid-item-card} 🌌 Disturbances in Space
+:::{grid-item-card} 🌌 VI - Disturbances in Space
 :link: disturbances/index
 :link-type: doc
 Environmental torques and forces acting on a spacecraft.
 :::
 
-:::{grid-item-card} 💾 Microcontroller Comm.
+:::{grid-item-card} 💾 VII - Microcontroller Comm.
 :link: microcontroller-comm/index
 :link-type: doc
 On-board communication buses and protocols.
 :::
 
-:::{grid-item-card} 🎲 Monte Carlo Simulation
+:::{grid-item-card} 🎲 VIII - Monte Carlo Simulation
 :link: monte-carlo/index
 :link-type: doc
 Statistical verification of GNC performance.
 :::
 
-:::{grid-item-card} 🛡️ FDIR
+:::{grid-item-card} 🛡️ IX - FDIR
 :link: fdir/index
 :link-type: doc
 Fault Detection, Isolation and Recovery.
