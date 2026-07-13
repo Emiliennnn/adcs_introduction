@@ -2,7 +2,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
-project = "Space GNC Handbook"
+project = "ADCS Introduction Handbook"
 author = "Emilien Coudurier"
 copyright = "2026, Emilien Coudurier"
 release = "0.1.0"
@@ -37,7 +37,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "furo"
-html_title = "Space GNC Handbook"
+html_title = "ADCS Introduction Handbook"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 

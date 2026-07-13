@@ -1,7 +1,6 @@
 # References
 
-This page collects the bibliography for the whole handbook. Cite an entry from
-any page with `` {cite}`key` `` and it will appear here automatically.
+Bibliography of relevant works on which this page is built.
 
 ```{bibliography}
 :all:

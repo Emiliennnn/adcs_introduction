@@ -1,7 +1,6 @@
-# Space GNC Handbook
+# ADCS Introduction Handbook
 
-An open, public reference on spacecraft **Guidance, Navigation & Control** and
-the surrounding subsystems. Built with [Sphinx](https://www.sphinx-doc.org/) +
+A high-level introduction to ADCS, for a quick onboarding. Built with [Sphinx](https://www.sphinx-doc.org/) +
 [MyST Markdown](https://myst-parser.readthedocs.io/) and published on
 [Read the Docs](https://readthedocs.org/).
 

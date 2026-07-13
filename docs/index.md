@@ -1,11 +1,12 @@
-# Space GNC Handbook
+# Introduction to ADCS
 
-A practical, open reference on **Guidance, Navigation & Control** and the surrounding
-subsystems for spacecraft — from control theory and state estimation to orbit dynamics,
-sensors & actuators, and fault management.
+A practical guide to onboard **Attitude Determination and Control Subsystem (ADCS)** design. From control theory and state estimation to orbit dynamics,
+sensors & actuators, and fault management. 
+
+This page aims to provide anyone with the very basic tools for ADCS, rather than going into details. For a comprehensive lookout, accessible resources are added at the end of each topic.
 
 :::{note}
-This handbook is a work in progress. Content is being added topic by topic.
+This handbook is a work in progress, made by students for students. Content is being added topic by topic.
 Contributions and corrections are welcome via the
 [GitHub repository](https://github.com/Emiliennnn/adcs_introduction).
 :::
