@@ -50,5 +50,32 @@ html_theme_options = {
 # -- MathJax -----------------------------------------------------------------
 # Enable equation numbering across the whole document set.
 numfig = True
+numfig_format = {"figure": "Figure %s", "table": "Table %s", "code-block": "Listing %s"}
 math_number_all = True
 math_eqref_format = "Eq.{number}"
+
+
+# -- Custom "example" admonition (green box) ---------------------------------
+# Registers a ::: {example} ... ::: directive, styled green in custom.css,
+# mirroring the built-in ::: {note} box.
+from docutils import nodes
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition
+
+
+class ExampleDirective(BaseAdmonition):
+    node_class = nodes.admonition
+    required_arguments = 0
+    optional_arguments = 1
+    final_argument_whitespace = True
+
+    def run(self):
+        # Default the title to "Example" when none is given after the name.
+        self.arguments = self.arguments or ["Example"]
+        classes = self.options.setdefault("class", [])
+        if "example" not in classes:
+            classes.append("example")
+        return super().run()
+
+
+def setup(app):
+    app.add_directive("example", ExampleDirective)

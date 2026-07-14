@@ -13,7 +13,15 @@ article[role="main"] p {
 }
 
 article[role="main"] figcaption p {
-  text-align: initial;
+  text-align: center;
+}
+
+/* Give figures room to breathe: extra space above so an image doesn't butt
+   up against the preceding text, and a smaller gap below before the caption
+   flows into the next paragraph. */
+article[role="main"] figure {
+  margin-top: 2em;
+  margin-bottom: 1.5em;
 }
 
 /* Extra breathing room before each subtopic heading, so a new subtopic
@@ -21,6 +29,84 @@ article[role="main"] figcaption p {
    paragraph (Furo's default is a cramped 8px). */
 article[role="main"] h3 {
   margin-top: 2.5em;
+}
+
+/* Custom green "Example" admonition (directive registered in conf.py).
+   Mirrors the structure Furo uses for its built-in note/tip boxes. */
+.admonition.example {
+  border-left-color: #2ea043;
+}
+
+.admonition.example > .admonition-title {
+  background-color: rgba(46, 160, 67, 0.15);
+}
+
+.admonition.example > .admonition-title::before {
+  background-color: #2ea043;
+  -webkit-mask-image: var(--icon-abstract);
+  mask-image: var(--icon-abstract);
+}
+
+/* Interactive 1D stability plot (docs/control/index.md). */
+#stability-widget {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2em;
+  align-items: center;
+  margin: 1.5em 0;
+  padding: 1em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  border-radius: 0.5em;
+}
+
+#stability-canvas-wrap {
+  flex: 1 1 340px;
+  min-width: 250px;
+}
+
+#stability-canvas {
+  display: block;
+  width: 100%;
+}
+
+.stability-controls {
+  flex: 1 1 200px;
+  min-width: 190px;
+  font-size: 0.9em;
+}
+
+#stability-widget .stability-eq {
+  margin: 0 0 0.9em;
+  text-align: center;
+  font-family: var(--font-stack--monospace, monospace);
+}
+
+.stability-controls label {
+  display: grid;
+  grid-template-columns: 1.6em 1fr 3em;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.5em 0;
+  font-family: var(--font-stack--monospace, monospace);
+}
+
+.stability-controls input[type="range"] {
+  width: 100%;
+  margin: 0;
+}
+
+.stability-controls output {
+  text-align: right;
+}
+
+#stability-reset {
+  margin-top: 0.7em;
+  font: inherit;
+  padding: 0.3em 0.9em;
+  border-radius: 0.3em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  background: var(--color-background-secondary, #f3f4f6);
+  cursor: pointer;
 }
 
 /* Interactive attitude-visualization widget (docs/index.md). Both 3D
