@@ -213,3 +213,98 @@ article[role="main"] h3 {
   background: var(--color-background-secondary, #f3f4f6);
   cursor: pointer;
 }
+
+/* Control-section plot widgets: linearization (3D), discretization and
+   proportional-gain tuning (docs/control/index.md). */
+#linearization-widget,
+#discretization-widget,
+#gain-widget {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2em;
+  align-items: center;
+  margin: 1.5em 0;
+  padding: 1em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  border-radius: 0.5em;
+}
+
+#linearization-canvas-wrap {
+  flex: 1 1 100%;
+  cursor: grab;
+}
+
+#linearization-canvas-wrap:active {
+  cursor: grabbing;
+}
+
+#discretization-canvas-wrap {
+  flex: 1 1 360px;
+  min-width: 260px;
+}
+
+#gain-plot-wrap {
+  flex: 1 1 320px;
+  min-width: 240px;
+}
+
+#gain-elevator-wrap {
+  flex: 0 0 110px;
+}
+
+#linearization-canvas,
+#discretization-canvas,
+#gain-plot-canvas,
+#gain-elevator-canvas {
+  display: block;
+  width: 100%;
+  border-radius: 0.375em;
+}
+
+.discretization-controls {
+  flex: 1 1 200px;
+  min-width: 190px;
+  font-size: 0.9em;
+}
+
+.gain-controls {
+  flex: 1 1 160px;
+  min-width: 150px;
+  font-size: 0.9em;
+}
+
+.discretization-controls label,
+.gain-controls label {
+  display: grid;
+  grid-template-columns: 1.9em 1fr 3em;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.5em 0;
+  font-family: var(--font-stack--monospace, monospace);
+}
+
+.discretization-controls input[type="range"],
+.gain-controls input[type="range"] {
+  width: 100%;
+  margin: 0;
+}
+
+.discretization-controls output,
+.gain-controls output {
+  text-align: right;
+}
+
+.plot-legend {
+  font-size: 0.9em;
+  line-height: 1.9;
+  margin: 0 0 0.8em;
+}
+
+.plot-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 1.4em;
+  border-top: 3px solid currentColor;
+  margin-right: 0.45em;
+  vertical-align: middle;
+}

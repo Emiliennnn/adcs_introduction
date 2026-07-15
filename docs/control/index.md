@@ -138,6 +138,20 @@ Most of control theory sits on the assumption that a system is linear. Fortunate
       \tilde B &= \frac{\partial f(\mathbf x, u)}{\partial u}.
 \end{align}
 
+```{raw} html
+<div id="linearization-widget">
+  <div id="linearization-canvas-wrap">
+    <canvas id="linearization-canvas"></canvas>
+  </div>
+</div>
+<script type="module" src="../_static/linearization-plot.js"></script>
+```
+
+*Drag to orbit. The coloured squares are the tangent-plane linearisations of the
+surface $z = f(x,y) = \sin x \cos y$ at three points: each one matches the
+surface at its point (dot) but drifts away from it elsewhere — a linearisation
+is only valid locally, near its point.*
+
 :::{example}
 Take back our pendulum example and consider its state being $\mathbf x = \begin{bmatrix} \theta \\ \omega \end{bmatrix}$, where $\omega = \dot \theta$. Its matrix form reads:
 \begin{align}
@@ -163,14 +177,34 @@ Discretization can be done using different methods. The **Forward Euler (FE)** a
 which reduces to the following in the *linear case*:
 \begin{align}
       \mathbf x^+ &= \mathbf x + t_s \cdot (A \mathbf{x} + B u), \\
-      \mathbf x^+ &= (I + A t_s) \mathbf x + (B t_s) u,
+      \mathbf x^+ &= (I + A t_s) \mathbf x + (B t_s) u, \\
+      \mathbf x^+ &= A_d \mathbf x + B_d u,
 \end{align}
 if the constant term $N$ is null, and where $t_s$ is the *sampling time*.
 :::{note}
-The state-space representation has the same form in both discrete and continuous domains when using FE.
+The state-space representation has the same form in both discrete and continuous domains when using FE. The subscript $\cdot_d$ indicates the matrix is in the discrete domain.
 :::
 
 Other wildly used methods include the **Runge-Kutta (RK)** approach, which you can learn about [here](https://www.youtube.com/watch?v=t48a2M27kjM) (10min youtube video) or the **Zero-Order Hold (ZOH)** approach which you can learn about [here](https://www.youtube.com/watch?v=vnhAG5NiYqM) (14min youtube video).
+
+In the following interactive plot, you can see how different methods discretize a continous signal depending on the given sampling time. For $t_s > 1.5s$, the FE methods breaks while others remain usable.
+```{raw} html
+<div id="discretization-widget">
+  <div id="discretization-canvas-wrap">
+    <canvas id="discretization-canvas"></canvas>
+  </div>
+  <div class="discretization-controls">
+    <p class="plot-legend">
+      <span style="color:#8a8f98">Reference</span><br>
+      <span style="color:#d7263d">Forward Euler</span><br>
+      <span style="color:#2ea043">RK4</span><br>
+      <span style="color:#2f6fed">ZOH</span>
+    </p>
+    <label>t&#8347;<input type="range" id="discretization-ts" min="0.1" max="2" step="0.05" value="0.5"><output id="discretization-ts-val">0.50</output></label>
+  </div>
+</div>
+<script type="module" src="../_static/discretization-plot.js"></script>
+```
 
 :::{example}
 Take the state-space form of our elevator system in {eq}`eq:elevator_ss`. It is indeed already linear, however it needs to be discretized. Using FE:
@@ -179,88 +213,50 @@ Take the state-space form of our elevator system in {eq}`eq:elevator_ss`. It is 
 \end{align}
 $$\downarrow$$
 \begin{align}
-      \begin{bmatrix} x \\ v \end{bmatrix}^+ &= \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} x \\ v \end{bmatrix} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} u + \begin{bmatrix} 0 \\ -g \end{bmatrix}.
+      \begin{bmatrix} x \\ v \end{bmatrix}^+ &= \begin{bmatrix} 1 & t_s \\ 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ v \end{bmatrix} + \begin{bmatrix} 0 \\ t_s \end{bmatrix} u + \begin{bmatrix} 0 \\ -g \end{bmatrix}.
 \end{align}
 :::
 
-### Motivation
+#### Proportional Control
 
-Control has been in the core of engineering for centuries. From decreasing the stove heat to avoid burning your food to automatically computing the optimal flap rotation in an aircraft for take-off, its applications are numerous. In the case of autonomous spacecrafts, the operator has hardly contact with it, meaning all or part of its functions must be automated, accross low- and high-level commands. 
+The easiest way to control a system such as our elevator is to use a proportional feedback input signal to the state:
+\begin{align}
+      u &= K \mathbf x.
+\end{align}
+In other words, the input is automatically computed as a linear combination of the current state, making sure the plant reaches the desired state. The state-space representation becomes:
+\begin{align}
+      \mathbf x^+ &= A_d \mathbf x + B_d u \\
+      \mathbf x^+ &= A_d \mathbf x + B_d (K \mathbf x), \\
+      \mathbf x^+ &= (A_d + B_d K) \mathbf x,
+\end{align}
+which relates to an **autonomous system** (no explicit input). As discussed in the stability section, the stability of this system can be guaranteed confirming that the real part of each eigenvalue of $(A_d + B_d K)$ is negative. 
 
-For example, let a satellite be arbitrarily oriented and in orbit. For communication, it needs to turn its antennas towards the ground antenna, and therefore needs to initiate a set of manoeuvers through a command tree:
+This matrix $K$ is called the **feedback gain matrix**, and can be either hand tuned, found analytically or using Machine Learning methods. Each entry $k_{ii}$ of $K$ gives the relationship between a state of the plant and its response in terms of input.
 
-```{figure} figures/control_motivation.drawio.svg
-:alt: Command tree for pointing the satellite's antenna at the ground station
-:width: 60%
-:align: center
+:::{example}
+Take our elevator example and derive the input $u$ based on the current state $\mathbf x$ and a fixed feedback gain matrix $K$:
+\begin{align}
+      \begin{bmatrix} x \\ v \end{bmatrix}^+ &= \left( \begin{bmatrix} 1 & t_s \\ 0 & 1 \end{bmatrix} + \begin{bmatrix} 0 \\ t_s \end{bmatrix} K \right) \begin{bmatrix} x \\ v \end{bmatrix} + \begin{bmatrix} 0 \\ -g \end{bmatrix}.
+\end{align}
+In this case, $K = [k_1 k_2]$ (by construction) where $k_1$ is the proportional gain to the position of the elevator and $k_2$ is the proportional gain to the speed of the elevator. 
 
-Simplified command tree for orienting the satellite's antenna towards the ground station.
+Suppose we only want the elevator to move based on its position error with the desired position. We therefore have $k_2 = 0$ (no effect of the speed on the input computation). You can try and tune this unique gain entry $k_1$ in the interactive plot below.
+```{raw} html
+<div id="gain-widget">
+  <div id="gain-plot-wrap">
+    <canvas id="gain-plot-canvas"></canvas>
+  </div>
+  <div id="gain-elevator-wrap">
+    <canvas id="gain-elevator-canvas"></canvas>
+  </div>
+  <div class="gain-controls">
+    <label>k&#8321;<input type="range" id="gain-k1" min="0.1" max="8" step="0.1" value="1"><output id="gain-k1-val">1.0</output></label>
+  </div>
+</div>
+<script type="module" src="../_static/gain-tuning-plot.js"></script>
 ```
+:::
 
-To find the best current to apply to our motors, many methods have been introduced in the past century, providing stability guarantees and optimality in some sense. In this section, the typical abstraction concepts used by engineers are presented.
+#### PID Control
 
-### Feedback Control (open vs closed loop)
-
-Through an input signal (mechanical, electronic, digital), a controller can change the state of a targetted system to approach a desired behavior. 
-
-input relation
-
-### Continuous and Discrete Systems
-
-*Discretization is an important step in controller design, allowing numeric computations.*
-
-Real systems are continuous. The relationship between their state variable typically imply Ordinary Differential Equations (ODE), like between acceleration, speed and position:
-
-$$ a(t) = \dot{v}(t) = \ddot{x}(t). $$
-
-Computing units work however in the discrete domain, and the translation from continuous to discrete time can be done in several manners. This includes Forward Euler (FE), arguably the most intuitive but for various reasons not the best in terms of generalization (some systems cannot be discretized using this method, or it will break):
-
-$$ v^+ = v + a \cdot t_s, $$
-where $ t_s $ is the sampling time.
-
-Other methods like the Runge-Kutta (RK) discretization offer a stable option but are not described further. The main point here is that to let a computing unit do its job as a controller, it needs a discrete representation. A good discrete model is able to precisely mimic the real-world dynamics, providing a clear picture to the controller of what is really going on outside.
-
-### State-Space representation
-
-The state-space represenation allows a system to be depicted in the time domain using linear algebra. This is simply the matrix form several equations:
-
-\begin{align}
-      x^+ &= x + v \cdot t_s \\
-      v^+ &= v + a \cdot t_s \\
-      a^+ &= a + u \\
-\end{align}
-
-$$ \downarrow \\$$
-
-\begin{align}
-      \begin{bmatrix} x \\ v \\ a \end{bmatrix} ^+ &= \begin{bmatrix} 1 & t_s & 0 \\ 0 & 1 & t_s\\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ v \\ a \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} u.
-\end{align}
-
-The derived matrices are called $A$ and $B$, and the state vector usually written $\mathbf{x}$ for simplicity, giving:
-
-\begin{align}
-      \mathbf{x}^+ &= A \mathbf{x} + B u
-\end{align}
-
-This compact formulation has many advantages, including simple stability analysis and controller design.
-
-### PID Controller
-
-
-
-### Interactive Example
-
-A linear time-invariant plant in state-space form:
-
-$$
-\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}, \qquad
-\mathbf{y} = C\mathbf{x} + D\mathbf{u}
-$$ (eq:ss)
-
-with the LQR cost functional {eq}`eq:lqr`:
-
-$$
-J = \int_0^{\infty} \left( \mathbf{x}^\top Q \mathbf{x}
-      + \mathbf{u}^\top R \mathbf{u} \right)\, dt
-$$ (eq:lqr)
-
+While many control strategies exsit (pole-placement, [LQR], [MPC], ...), one of the most used for its easy implementation and low cost in terms of computation remains **Proportional Integral Derivative (PID)** control. It is based on 
