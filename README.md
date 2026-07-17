@@ -4,7 +4,7 @@
 
 📖 **[Read the docs](https://adcs-introduction.readthedocs.io/en/latest/)**
 
-A high-level introduction to ADCS, for a quick onboarding. Built with [Sphinx](https://www.sphinx-doc.org/) +
+An introduction to ADCS and its fundamentals, for a quick onboarding. Built with [Sphinx](https://www.sphinx-doc.org/) +
 [MyST Markdown](https://myst-parser.readthedocs.io/) and published on
 [Read the Docs](https://readthedocs.org/).
 

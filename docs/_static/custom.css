@@ -214,11 +214,14 @@ article[role="main"] h3 {
   cursor: pointer;
 }
 
-/* Control-section plot widgets: linearization (3D), discretization and
-   proportional-gain tuning (docs/control/index.md). */
+/* Control-section plot widgets: linearization (3D), discretization,
+   proportional-gain tuning and reference-signal tracking. */
 #linearization-widget,
 #discretization-widget,
-#gain-widget {
+#gain-widget,
+#reference-widget,
+#pid-widget,
+#sat-widget {
   display: flex;
   flex-wrap: wrap;
   gap: 1.2em;
@@ -227,6 +230,90 @@ article[role="main"] h3 {
   padding: 1em;
   border: 1px solid var(--color-background-border, #d1d5db);
   border-radius: 0.5em;
+}
+
+/* Practical-example satellite-pointing widget. */
+#sat-canvas-wrap {
+  flex: 1 1 380px;
+  min-width: 280px;
+  cursor: grab;
+}
+
+#sat-canvas-wrap:active {
+  cursor: grabbing;
+}
+
+#sat-canvas {
+  display: block;
+  width: 100%;
+  border-radius: 0.375em;
+}
+
+.sat-controls {
+  flex: 1 1 190px;
+  min-width: 180px;
+  font-size: 0.9em;
+}
+
+.sat-targets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  margin-bottom: 1em;
+}
+
+.sat-targets button {
+  font: inherit;
+  font-size: 0.95em;
+  padding: 0.4em 0.7em;
+  border-radius: 0.3em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  background: var(--color-background-secondary, #f3f4f6);
+  cursor: pointer;
+}
+
+.sat-targets button.active {
+  border-color: var(--color-brand-primary, #0a4bff);
+  box-shadow: inset 0 0 0 1px var(--color-brand-primary, #0a4bff);
+  font-weight: 600;
+}
+
+.sat-controls label {
+  display: grid;
+  grid-template-columns: 2.4em 1fr 3.2em;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.5em 0;
+  font-family: var(--font-stack--monospace, monospace);
+}
+
+.sat-controls input[type="range"] {
+  width: 100%;
+  margin: 0;
+}
+
+.sat-controls output {
+  text-align: right;
+}
+
+.sat-readout {
+  margin-top: 0.9em;
+  font-size: 0.95em;
+}
+
+.sat-readout span {
+  font-family: var(--font-stack--monospace, monospace);
+  font-weight: 600;
+}
+
+#sat-plot-wrap {
+  flex: 1 1 100%;
+}
+
+#sat-plot-canvas {
+  display: block;
+  width: 100%;
+  border-radius: 0.375em;
 }
 
 #linearization-canvas-wrap {
@@ -243,19 +330,27 @@ article[role="main"] h3 {
   min-width: 260px;
 }
 
-#gain-plot-wrap {
+#gain-plot-wrap,
+#reference-plot-wrap,
+#pid-plot-wrap {
   flex: 1 1 320px;
   min-width: 240px;
 }
 
-#gain-elevator-wrap {
+#gain-elevator-wrap,
+#reference-elevator-wrap,
+#pid-elevator-wrap {
   flex: 0 0 110px;
 }
 
 #linearization-canvas,
 #discretization-canvas,
 #gain-plot-canvas,
-#gain-elevator-canvas {
+#gain-elevator-canvas,
+#reference-plot-canvas,
+#reference-elevator-canvas,
+#pid-plot-canvas,
+#pid-elevator-canvas {
   display: block;
   width: 100%;
   border-radius: 0.375em;
@@ -267,14 +362,18 @@ article[role="main"] h3 {
   font-size: 0.9em;
 }
 
-.gain-controls {
+.gain-controls,
+.reference-controls,
+.pid-controls {
   flex: 1 1 160px;
   min-width: 150px;
   font-size: 0.9em;
 }
 
 .discretization-controls label,
-.gain-controls label {
+.gain-controls label,
+.reference-controls label,
+.pid-controls label {
   display: grid;
   grid-template-columns: 1.9em 1fr 3em;
   align-items: center;
@@ -283,15 +382,50 @@ article[role="main"] h3 {
   font-family: var(--font-stack--monospace, monospace);
 }
 
+/* "y_ref" needs a wider first column than a single-letter label. */
+.reference-controls label {
+  grid-template-columns: 3em 1fr 3em;
+}
+
+/* PID: two-character subscripted labels (K_p) plus 2-decimal K_i value. */
+.pid-controls label {
+  grid-template-columns: 2.4em 1fr 3.2em;
+}
+
 .discretization-controls input[type="range"],
-.gain-controls input[type="range"] {
+.gain-controls input[type="range"],
+.reference-controls input[type="range"],
+.pid-controls input[type="range"] {
   width: 100%;
   margin: 0;
 }
 
 .discretization-controls output,
-.gain-controls output {
+.gain-controls output,
+.reference-controls output,
+.pid-controls output {
   text-align: right;
+}
+
+.reference-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  margin-top: 0.8em;
+}
+
+.reference-buttons button {
+  font: inherit;
+  font-size: 0.95em;
+  padding: 0.35em 0.7em;
+  border-radius: 0.3em;
+  border: 1px solid var(--color-background-border, #d1d5db);
+  background: var(--color-background-secondary, #f3f4f6);
+  cursor: pointer;
+}
+
+.reference-buttons button:hover {
+  background: var(--color-background-hover, #efeff4);
 }
 
 .plot-legend {
